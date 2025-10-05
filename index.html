@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Email Provider</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 16px;
+            letter-spacing: -0.025em;
+        }
+
+        .subtitle {
+            font-size: clamp(16px, 3vw, 20px);
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .providers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+            width: 100%;
+        }
+
+        .provider-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 32px 24px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .provider-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #0f172a;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .provider-card:hover {
+            transform: translateY(-4px);
+            border-color: #cbd5e1;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .provider-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .provider-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .provider-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            font-size: 24px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .gmail-icon {
+            background: linear-gradient(135deg, #4285f4, #34a853);
+        }
+
+        .hotmail-icon {
+            background: linear-gradient(135deg, #0078d4, #1084d1);
+        }
+
+        .outlook-icon {
+            background: linear-gradient(135deg, #0072c6, #00a4ef);
+        }
+
+        .yahoo-icon {
+            background: linear-gradient(135deg, #6001d2, #7b0099);
+        }
+
+        .icloud-icon {
+            background: linear-gradient(135deg, #2997ff, #5e5ce6);
+        }
+
+        .custom-icon {
+            background: linear-gradient(135deg, #475569, #334155);
+        }
+
+        .provider-info {
+            flex: 1;
+        }
+
+        .provider-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .provider-stats {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .provider-desc {
+            font-size: 15px;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .provider-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .feature-tag {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .provider-actions {
+            margin-top: auto;
+            width: 100%;
+        }
+
+        .select-btn {
+            width: 100%;
+            background: transparent;
+            border: 1.5px solid #e2e8f0;
+            color: #475569;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            display: block;
+            text-decoration: none;
+        }
+
+        .select-btn:hover {
+            background: #0f172a;
+            border-color: #0f172a;
+            color: white;
+        }
+
+        .divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 60px 0 40px;
+            width: 100%;
+        }
+
+        .footer {
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .footer p {
+            margin-bottom: 8px;
+        }
+
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f0f9ff;
+            color: #0369a1;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 20px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 30px 16px;
+            }
+            
+            .providers-grid {
+                gap: 20px;
+            }
+            
+            .provider-card {
+                padding: 24px 20px;
+            }
+            
+            .provider-header {
+                margin-bottom: 16px;
+            }
+            
+            .provider-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                margin-bottom: 40px;
+            }
+            
+            .provider-card {
+                padding: 20px 16px;
+            }
+            
+            .provider-features {
+                gap: 6px;
+            }
+            
+            .feature-tag {
+                font-size: 12px;
+                padding: 5px 10px;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #0f172a;
+                color: #f1f5f9;
+            }
+            
+            .provider-card {
+                background: #1e293b;
+                border-color: #334155;
+            }
+            
+            .provider-name {
+                color: #f1f5f9;
+            }
+            
+            .provider-desc {
+                color: #cbd5e1;
+            }
+            
+            .feature-tag {
+                background: #334155;
+                color: #cbd5e1;
+            }
+            
+            .select-btn {
+                border-color: #475569;
+                color: #cbd5e1;
+            }
+            
+            .select-btn:hover {
+                background: #3b82f6;
+                border-color: #3b82f6;
+                color: white;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">Email Provider Selection</div>
+            <p class="subtitle">Choose your email service to proceed with secure authentication</p>
+        </div>
+
+        <div class="providers-grid">
+            <!-- Gmail -->
+            <div class="provider-card">
+                <div class="provider-header">
+                    <div class="provider-icon gmail-icon">
+                        <i class="fab fa-google"></i>
+                    </div>
+                    <div class="provider-info">
+                        <div class="provider-name">Gmail</div>
+                        <div class="provider-stats">2B+ users • Google</div>
+                    </div>
+                </div>
+                <div class="provider-desc">
+                    Industry-leading email service with advanced spam protection, 15GB storage, and seamless Google ecosystem integration.
+                </div>
+                <div class="provider-features">
+                    <span class="feature-tag">15GB Storage</span>
+                    <span class="feature-tag">AI-powered</span>
+                    <span class="feature-tag">Google Workspace</span>
+                </div>
+                <div class="provider-actions">
+                    <a href="#" class="select-btn">Select Gmail</a>
+                </div>
+            </div>
+
+            <!-- Outlook -->
+            <div class="provider-card">
+                <div class="provider-header">
+                    <div class="provider-icon outlook-icon">
+                        <i class="fab fa-microsoft"></i>
+                    </div>
+                    <div class="provider-info">
+                        <div class="provider-name">Outlook</div>
+                        <div class="provider-stats">Enterprise • Microsoft</div>
+                    </div>
+                </div>
+                <div class="provider-desc">
+                    Professional email solution with Microsoft 365 integration, advanced security features, and enterprise-grade reliability.
+                </div>
+                <div class="provider-features">
+                    <span class="feature-tag">Office 365</span>
+                    <span class="feature-tag">Enterprise Security</span>
+                    <span class="feature-tag">Calendar Sync</span>
+                </div>
+                <div class="provider-actions">
+                    <a href="#" class="select-btn">Select Outlook</a>
+                </div>
+            </div>
+
+            <!-- Yahoo -->
+            <div class="provider-card">
+                <div class="provider-header">
+                    <div class="provider-icon yahoo-icon">
+                        <i class="fab fa-yahoo"></i>
+                    </div>
+                    <div class="provider-info">
+                        <div class="provider-name">Yahoo Mail</div>
+                        <div class="provider-stats">1TB Storage • Verizon</div>
+                    </div>
+                </div>
+                <div class="provider-desc">
+                    High-capacity email service with extensive storage, integrated news feeds, and robust organizational tools.
+                </div>
+                <div class="provider-features">
+                    <span class="feature-tag">1TB Storage</span>
+                    <span class="feature-tag">News Integration</span>
+                    <span class="feature-tag">Custom Themes</span>
+                </div>
+                <div class="provider-actions">
+                    <a href="#" class="select-btn">Select Yahoo</a>
+                </div>
+            </div>
+
+            <!-- iCloud -->
+            <div class="provider-card">
+                <div class="provider-header">
+                    <div class="provider-icon icloud-icon">
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <div class="provider-info">
+                        <div class="provider-name">iCloud Mail</div>
+                        <div class="provider-stats">Apple Ecosystem • Privacy</div>
+                    </div>
+                </div>
+                <div class="provider-desc">
+                    Privacy-focused email service seamlessly integrated across Apple devices with end-to-end encryption and iCloud sync.
+                </div>
+                <div class="provider-features">
+                    <span class="feature-tag">Apple Integration</span>
+                    <span class="feature-tag">Privacy Focused</span>
+                    <span class="feature-tag">E2E Encryption</span>
+                </div>
+                <div class="provider-actions">
+                    <a href="#" class="select-btn">Select iCloud</a>
+                </div>
+            </div>
+
+            <!-- Hotmail -->
+            <div class="provider-card">
+                <div class="provider-header">
+                    <div class="provider-icon hotmail-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="provider-info">
+                        <div class="provider-name">Hotmail</div>
+                        <div class="provider-stats">Legacy • Microsoft</div>
+                    </div>
+                </div>
+                <div class="provider-desc">
+                    Classic webmail service now integrated with Outlook, maintaining legacy support while offering modern features.
+                </div>
+                <div class="provider-features">
+                    <span class="feature-tag">Legacy Support</span>
+                    <span class="feature-tag">Outlook Integration</span>
+                    <span class="feature-tag">Proven Reliability</span>
+                </div>
+                <div class="provider-actions">
+                    <a href="#" class="select-btn">Select Hotmail</a>
+                </div>
+            </div>
+
+            <!-- Custom Domain -->
+            <div class="provider-card">
+                <div class="provider-header">
+                    <div class="provider-icon custom-icon">
+                        <i class="fas fa-at"></i>
+                    </div>
+                    <div class="provider-info">
+                        <div class="provider-name">Custom Domain</div>
+                        <div class="provider-stats">Professional • Self-hosted</div>
+                    </div>
+                </div>
+                <div class="provider-desc">
+                    Enterprise-grade email hosting with custom domain support, advanced security controls, and administrative management.
+                </div>
+                <div class="provider-features">
+                    <span class="feature-tag">Custom Branding</span>
+                    <span class="feature-tag">Admin Controls</span>
+                    <span class="feature-tag">Advanced Security</span>
+                </div>
+                <div class="provider-actions">
+                    <a href="#" class="select-btn">Select Custom Domain</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="footer">
+            <p>© 2023 Secure Authentication Portal</p>
+            <p>All email providers utilize industry-standard encryption and security protocols</p>
+            <div class="security-badge">
+                <i class="fas fa-shield-alt"></i>
+                Enterprise-grade security & encryption
+            </div>
+        </div>
+    </div>
+</body>
+</html>

